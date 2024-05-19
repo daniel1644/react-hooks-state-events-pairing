@@ -1,18 +1,36 @@
-import video from "../data/video.js";
+import React, { useState } from 'react';
+import video from '../data/video.js';
+import VideoPlayer from './VideoPlayer';
+import Comments from './Comments';
 
 function App() {
-  console.log("Here's your data:", video);
+  const [videoData, setVideoData] = useState(video);
+
+  const handleUpvote = () => {
+    setVideoData({
+      ...videoData,
+      upvotes: videoData.upvotes + 1,
+    });
+  };
+
+  const handleDownvote = () => {
+    setVideoData({
+      ...videoData,
+      downvotes: videoData.downvotes + 1,
+    });
+  };
+
+  const handleToggleComments = () => {
+    setVideoData({
+      ...videoData,
+      showComments: !videoData.showComments,
+    });
+  };
 
   return (
     <div className="App">
-      <iframe
-        width="919"
-        height="525"
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        frameBorder="0"
-        allowFullScreen
-        title="Thinking in React"
-      />
+      <VideoPlayer video={videoData} onUpvote={handleUpvote} onDownvote={handleDownvote} />
+      <Comments video={videoData} onToggleComments={handleToggleComments} />
     </div>
   );
 }
